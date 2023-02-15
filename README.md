@@ -1,10 +1,10 @@
 # CG 2022/2023
 
-## Group T0xG0y
+## Group T03G08
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Catarina Barbosa | 202004898 | 202004898@fc.up.pt |
+| Francisca Andrade| 202005977 | 202005977@fc.up.pt |
 
 ----
 
