@@ -133,7 +133,7 @@ export class MyScene extends CGFscene {
 
     if(this.displayParallelogram) this.parallelogram.display();
     this.popMatrix();
-
+//----------------------------
     var matrixTranslate = [1,0,0,0,
                            0,1,0,0,
                            0,0,1,0,
@@ -143,7 +143,7 @@ export class MyScene extends CGFscene {
     this.multMatrix(matrixTranslate);
     if(this.displayTriangleSmall) this.triangleSmall.display();
     this.popMatrix();
-    
+//--------------------
     var matrixTranslate = [1,0,0,0,
                            0,1,0,0,
                            0,0,1,0,
@@ -153,7 +153,7 @@ export class MyScene extends CGFscene {
     this.multMatrix(matrixTranslate);
     if(this.displayTriangleBig) this.triangleBig.display();
     this.popMatrix();
-
+//---------------
     var matrixTranslate_x = [1,0,0,0,
                              0,1,0,0,
                              0,0,1,0,
@@ -162,7 +162,7 @@ export class MyScene extends CGFscene {
     var matrixTranslate_y = [1,0,0,0,
                              0,1,0,0,
                              0,0,1,0,
-                             0,2.5,0,1];                             
+                             0,2.4,0,1];                             
 
     var matrixRotate = [Math.cos(Math.PI/4),Math.sin(Math.PI/4),0,0,
                         -Math.sin(Math.PI/4),Math.cos(Math.PI/4),0,0,
@@ -174,9 +174,9 @@ export class MyScene extends CGFscene {
     this.multMatrix(matrixRotate);
     if(this.displayTriangle) this.triangle.display();
     this.popMatrix();
-
+//---------------------------
     // código q pode dar para o vermelho
-    /*var matrixRotate = [Math.cos(Math.PI/4),Math.sin(Math.PI/4),0,0,
+  /*   var matrixRotate = [Math.cos(Math.PI/4),Math.sin(Math.PI/4),0,0,
                         -Math.sin(Math.PI/4),Math.cos(Math.PI/4),0,0,
                         0,0,1,0,
                         0,0,0,1];
@@ -184,7 +184,40 @@ export class MyScene extends CGFscene {
     this.multMatrix(matrixRotate);
     if(this.displayTriangleSmall) this.displayTriangleSmall.display();
     this.popMatrix();*/
-    
+//---------------------------
+//rotação em z
+    var matrixRotateA = [Math.cos(Math.PI+Math.PI/2+Math.PI/4),Math.sin(Math.PI+Math.PI/2+Math.PI/4),0,0,
+                        -Math.sin(Math.PI+Math.PI/2+Math.PI/4),Math.cos(Math.PI+Math.PI/2+Math.PI/4),0,0,
+                        0,0,1,0,
+                        0,0,0,1];
+
+     var matrixTranslate1 = [1,0,0,0,
+                             0,1,0,0,
+                             0,0,1,0,
+                             1.5,-0.7,0,1];                   
+
+    this.pushMatrix();
+    //this.multMatrix(matrixTranslate1);
+    this.multMatrix(matrixRotateA);
+    this.multMatrix(matrixTranslate1);
+    this.triangleBig.display();
+    this.popMatrix();
+    //----------------
+    var matrixTranslateS = [1,0,0,0,
+                            0,1,0,0,
+                            0,0,1,0,
+                            2,-2,0,1];
+
+    var matrixRotateS = [Math.cos(-Math.PI/2),Math.sin(-Math.PI/2),0,0,
+                        -Math.sin(-Math.PI/2),Math.cos(-Math.PI/2),0,0,
+                        0,0,1,0,
+                        0,0,0,1];
+
+    this.pushMatrix();                       
+    this.multMatrix(matrixRotateS);
+    this.multMatrix(matrixTranslateS);
+    if(this.displayTriangleSmall) this.triangleSmall.display();
+    this.popMatrix();
     // ---- END Primitive drawing section
   }
 }
