@@ -107,10 +107,10 @@ export class MyScene extends CGFscene {
 
     //this.diamond.display();
     //if(this.displayDiamond) this.diamond.display();
-    if(this.displayTriangle) this.triangle.display();
+    //if(this.displayTriangle) this.triangle.display();
  
-    if(this.displayTriangleSmall) this.triangleSmall.display();
-    if(this.displayTriangleBig) this.triangleBig.display();
+    //if(this.displayTriangleSmall) this.triangleSmall.display();
+    //if(this.displayTriangleBig) this.triangleBig.display();
 
     this.pushMatrix();
     var matrixTranslate = [1,0,0,0,
@@ -133,6 +133,58 @@ export class MyScene extends CGFscene {
 
     if(this.displayParallelogram) this.parallelogram.display();
     this.popMatrix();
+
+    var matrixTranslate = [1,0,0,0,
+                           0,1,0,0,
+                           0,0,1,0,
+                           1,0,0,1];
+    
+    this.pushMatrix();                       
+    this.multMatrix(matrixTranslate);
+    if(this.displayTriangleSmall) this.triangleSmall.display();
+    this.popMatrix();
+    
+    var matrixTranslate = [1,0,0,0,
+                           0,1,0,0,
+                           0,0,1,0,
+                           0,-3,0,1];
+
+    this.pushMatrix();
+    this.multMatrix(matrixTranslate);
+    if(this.displayTriangleBig) this.triangleBig.display();
+    this.popMatrix();
+
+    var matrixTranslate_x = [1,0,0,0,
+                             0,1,0,0,
+                             0,0,1,0,
+                             -1,0,0,1];
+
+    var matrixTranslate_y = [1,0,0,0,
+                             0,1,0,0,
+                             0,0,1,0,
+                             0,2.5,0,1];                             
+
+    var matrixRotate = [Math.cos(Math.PI/4),Math.sin(Math.PI/4),0,0,
+                        -Math.sin(Math.PI/4),Math.cos(Math.PI/4),0,0,
+                        0,0,1,0,
+                        0,0,0,1];
+    this.pushMatrix();
+    this.multMatrix(matrixTranslate_x);
+    this.multMatrix(matrixTranslate_y);
+    this.multMatrix(matrixRotate);
+    if(this.displayTriangle) this.triangle.display();
+    this.popMatrix();
+
+    // código q pode dar para o vermelho
+    /*var matrixRotate = [Math.cos(Math.PI/4),Math.sin(Math.PI/4),0,0,
+                        -Math.sin(Math.PI/4),Math.cos(Math.PI/4),0,0,
+                        0,0,1,0,
+                        0,0,0,1];
+    this.pushMatrix();
+    this.multMatrix(matrixRotate);
+    if(this.displayTriangleSmall) this.displayTriangleSmall.display();
+    this.popMatrix();*/
+    
     // ---- END Primitive drawing section
   }
 }
