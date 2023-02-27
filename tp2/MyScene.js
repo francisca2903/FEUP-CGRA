@@ -194,12 +194,18 @@ export class MyScene extends CGFscene {
      var matrixTranslate1 = [1,0,0,0,
                              0,1,0,0,
                              0,0,1,0,
-                             1.5,-0.7,0,1];                   
+                             1.3,0,0,1]; 
+    var matrixTranslate2 = [1,0,0,0,
+                             0,1,0,0,
+                             0,0,1,0,
+                             0,-0.7,0,1];                            
 
     this.pushMatrix();
     //this.multMatrix(matrixTranslate1);
+    this.scale(1.07, 1.07, 1.07);
     this.multMatrix(matrixRotateA);
     this.multMatrix(matrixTranslate1);
+    this.multMatrix(matrixTranslate2);
     this.triangleBig.display();
     this.popMatrix();
     //----------------
@@ -212,6 +218,7 @@ export class MyScene extends CGFscene {
                         -Math.sin(-Math.PI/2),Math.cos(-Math.PI/2),0,0,
                         0,0,1,0,
                         0,0,0,1];
+    
 
     this.pushMatrix();                       
     this.multMatrix(matrixRotateS);
