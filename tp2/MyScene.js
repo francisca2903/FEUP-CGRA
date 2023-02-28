@@ -1,6 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis } from "../lib/CGF.js";
 import { MyTangram } from "./MyTangram.js";
 import { MyUnitCube } from "./MyUnitCube.js";
+import { MyUnitCubeQuad } from "./MyUnitCubeQuad.js";
 
 /**
  * MyScene
@@ -28,12 +29,14 @@ export class MyScene extends CGFscene {
     this.axis = new CGFaxis(this);
     this.tangram = new MyTangram(this);
     this.unitCube = new MyUnitCube(this);
+    this.unitCubeQuad = new MyUnitCubeQuad(this);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
     this.displayTangram = true;
     this.displayUnitCube = true;
+    this. displayUnitCubeQuad = true;
     
   }
   initLights() {
@@ -103,19 +106,29 @@ export class MyScene extends CGFscene {
     //if(this.displayTriangleSmall) this.triangleSmall.display();
     //if(this.displayTriangleBig) this.triangleBig.display();
 
+    // Tangram
     this.pushMatrix();
     this.rotate(-Math.PI/2, 1, 0, 0);
     this.translate(3.5, -3, 0);
     if(this.displayTangram) this.tangram.display();
     this.popMatrix();
 
+    // Unit Cube
     this.pushMatrix();
     this.rotate(-Math.PI/2, 1, 0, 0);
     this.scale(6.5,6.5,1);
     this.translate(0.5, -0.5, -0.6);
     if(this.displayUnitCube) this.unitCube.display();
     this.popMatrix();
-    
+
+    // Unit Cube Quad
+    this.pushMatrix();
+    this.rotate(-Math.PI/2, 1, 0, 0);
+    this.scale(6.5,6.5,1);
+    this.translate(0.5, -0.5, -0.6);
+    if(this.displayUnitCubeQuad) this.unitCubeQuad.display();
+    this.popMatrix();
+
     // ---- END Primitive drawing section
   }
 }
