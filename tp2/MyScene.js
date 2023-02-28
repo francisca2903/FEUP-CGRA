@@ -36,7 +36,7 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
     this.displayTangram = true;
     this.displayUnitCube = true;
-    this. displayUnitCubeQuad = true;
+    this.displayUnitCubeQuad = true;
     
   }
   initLights() {
