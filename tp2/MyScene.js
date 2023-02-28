@@ -5,7 +5,6 @@ import { MyParallelogram } from "./MyParallelogram.js";
 import { MyTriangleSmall } from "./MyTriangleSmall.js";
 import { MyTriangleBig } from "./MyTriangleBig.js";
 
-
 /**
  * MyScene
  * @constructor
@@ -186,7 +185,7 @@ export class MyScene extends CGFscene {
     this.popMatrix();*/
 //---------------------------
 //rotação em z
-    var matrixRotateA = [Math.cos(Math.PI+Math.PI/2+Math.PI/4),Math.sin(Math.PI+Math.PI/2+Math.PI/4),0,0,
+   /* var matrixRotateA = [Math.cos(Math.PI+Math.PI/2+Math.PI/4),Math.sin(Math.PI+Math.PI/2+Math.PI/4),0,0,
                         -Math.sin(Math.PI+Math.PI/2+Math.PI/4),Math.cos(Math.PI+Math.PI/2+Math.PI/4),0,0,
                         0,0,1,0,
                         0,0,0,1];
@@ -208,6 +207,7 @@ export class MyScene extends CGFscene {
     this.multMatrix(matrixTranslate2);
     this.triangleBig.display();
     this.popMatrix();
+    */
     //----------------
     var matrixTranslateS = [1,0,0,0,
                             0,1,0,0,
@@ -225,6 +225,26 @@ export class MyScene extends CGFscene {
     this.multMatrix(matrixTranslateS);
     if(this.displayTriangleSmall) this.triangleSmall.display();
     this.popMatrix();
+
+    //---------------------------
+    var matrixRotateT = [Math.cos(Math.PI),Math.sin(Math.PI),0,0,
+                        -Math.sin(Math.PI),Math.cos(Math.PI),0,0,
+                        0,0,1,0,
+                        0,0,0,1];
+
+    var matrixTranslateT = [1,0,0,0,
+                          0,1,0,0,
+                          0,0,1,0,
+                          -0.5,1.5,0,1];
+
+    this.pushMatrix();                       
+    this.multMatrix(matrixRotateT);
+    this.multMatrix(matrixTranslateT);
+    this.scale(1.5, 1.5, 1.5);
+    if(this.displayTriangle) this.triangle.display();
+    this.popMatrix();
+
+    
     // ---- END Primitive drawing section
   }
 }
