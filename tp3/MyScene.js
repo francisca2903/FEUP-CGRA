@@ -35,8 +35,7 @@ export class MyScene extends CGFscene {
         this.pyramid = new MyPyramid(this, 3, 1);
         this.tangram = new MyTangram(this);
         this.unitCube = new MyUnitCube(this);
-        this.prism = new MyPrism(this, 4, 8);
-
+        this.prism = new MyPrism(this, 8, 20);
         
         this.objects = [this.plane, this.pyramid, this.cone, this.tangram, this.unitCube, this.prism];
 
@@ -51,7 +50,7 @@ export class MyScene extends CGFscene {
         this.objectComplexity = 0.5;
         this.scaleFactor = 2.0;
         this.globalAmbientLight = 0.5;
-        this.stacks = 1;
+        //this.stacks = 1;
 
     }
     initLights() {
@@ -194,8 +193,6 @@ export class MyScene extends CGFscene {
         else{
             this.objects[this.selectedObject].disableNormalViz();
         }
-
-        this.prism.stacks = this.stacks;
       
         if (this.objects[this.selectedObject] == this.prism){
             this.pushMatrix();
@@ -206,7 +203,7 @@ export class MyScene extends CGFscene {
         else{
             this.objects[this.selectedObject].display();
         }
-
+        //this.objects[this.selectedObject].display();
         this.popMatrix();
         // ---- END Primitive drawing section
     }
