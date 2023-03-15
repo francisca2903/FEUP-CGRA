@@ -26,7 +26,17 @@ export class MyTangram extends CGFobject {
 	}
 
     initMaterials(){
- 
+
+        //------ Applied Material
+        this.tangramMaterial = new CGFappearance(this.scene);
+        this.tangramMaterial.setAmbient(1, 1, 1, 1);
+        this.tangramMaterial.setDiffuse(1, 1, 1, 1);
+        this.tangramMaterial.setSpecular(1, 1, 1, 1);
+        this.tangramMaterial.setShininess(10.0);
+        this.tangramMaterial.loadTexture('images/tangram.png');
+        this.tangramMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
+        // colors
         this.green = new CGFappearance(this.scene);
         this.green.setAmbient(0.3, 0.3, 0.3, 1.0);
         this.green.setDiffuse(0, 1.0, 0, 1.0);
@@ -71,8 +81,8 @@ export class MyTangram extends CGFobject {
     }
 	
 	display() {
-                // Diamond
 
+                // Diamond
                 var matrixTranslate = [1,0,0,0,
                                    0,1,0,0,
                                    0,0,1,0,
@@ -83,6 +93,7 @@ export class MyTangram extends CGFobject {
             
                 //this.translate(0,1,0);
                 //this.green.apply();
+                this.tangramMaterial.apply();
                 this.diamond.display();
                 this.scene.popMatrix();
 
