@@ -7,6 +7,7 @@
 - In exercise 1, we completed the exercise with no major problems.
 - In exercise 2, we initially had some trouble with the colors but after that we did the rest easily.
 - In exercise 3, we had some difficulties on how to start but we got there eventually.
+- In exercise 4, we completed the exercise more easily as we had the code from the prism to adapt.
 
 - Exercise 1:
 ![Screenshot 1](screenshots/cg-t03g08-tp3-1.png)
@@ -14,5 +15,7 @@
 ![Screenshot 2](screenshots/cg-t03g08-tp3-2.png)
 - Exercise 3:
 ![Screenshot 3](screenshots/cg-t03g08-tp3-3.png)
+- Exercise 4:
+![Screenshot 3](screenshots/cg-t03g08-tp3-4.png)
 
 

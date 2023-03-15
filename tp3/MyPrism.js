@@ -42,14 +42,6 @@ export class MyPrism extends CGFobject {
             }
         }
 
-        // text coord
-       /* for (var j = 0; j < this.slices; j++) {
-            for (var i = 0; i < 2; i++) {
-                this.texCoords.push((j + i) / this.slices, 1);
-                this.texCoords.push((j + i) / this.slices, 0);
-            }
-        }*/
-
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
