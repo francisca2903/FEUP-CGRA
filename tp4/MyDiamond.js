@@ -11,6 +11,10 @@ export class MyDiamond extends CGFobject {
 	}
 	
 	initBuffers() {
+		/*this.scene.diamondMaterial = new CGFappearance(this.scene);
+        this.scene.diamondMaterial.loadTexture('images/tangram.png');
+        this.scene.diamondMaterial.setTextureWrap('REPEAT', 'REPEAT');*/
+
 		this.vertices = [
 			-1, 0, 0,	//0
 			0, -1, 0,	//1
@@ -30,6 +34,13 @@ export class MyDiamond extends CGFobject {
 			0, 0, 1,
 			0, 0, 1,
 		];
+
+		this.texCoords = [
+			0, 0.5,
+			0.25, 0.75,
+			0.25, 0.25,
+			0.5, 0.5
+		]
 
 		//The defined indices (and corresponding vertices)
 		//will be read in groups of three to draw triangles
