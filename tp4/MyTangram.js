@@ -32,9 +32,9 @@ export class MyTangram extends CGFobject {
             0.75, 0.75  
         ]);
         this.triangleOrange = new MyTriangle(this.scene, [
-            0, 0.5,
-            0, 1,
-			0.5, 1,
+            1, 1, 
+            0.5, 0.5, 
+            1, 0 
         ]);
 
         this.initMaterials();
