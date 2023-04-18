@@ -2,7 +2,9 @@ import {CGFobject} from '../lib/CGF.js';
 /**
  * MySphere
  * @constructor
- * @param scene - Reference to MyScene object
+ * @param {MyScene} scene - Reference to MyScene object
+ * @param {Int} slices - Refers to the number of slices around the Y axis
+ * @param {Int} stacks - Refers to the number of stacks along the Y axis
  */
 export class MySphere extends CGFobject {
     constructor(scene, slices, stacks) {
@@ -37,9 +39,9 @@ export class MySphere extends CGFobject {
         theta = 0;
         for (let longitude = 0; longitude <= this.longDivs; longitude++) {
           // -- Vertices coordinates  -- //
-          var x = Math.cos(theta) * sinPhi;
-          var y = cosPhi;
-          var z = Math.sin(-theta) * sinPhi;
+          var x = 200 * Math.cos(theta) * sinPhi;
+          var y = 200 * cosPhi;
+          var z = 200 * Math.sin(-theta) * sinPhi;
           this.vertices.push(x, y, z);
   
           // -- Indices -- //
@@ -50,8 +52,8 @@ export class MySphere extends CGFobject {
             // and the ones directly south (next, next+1) 
             // (i.e. one full round of slices ahead) 
   
-          this.indices.push(current + 1, current, next);
-          this.indices.push(current + 1, next, next + 1);
+          this.indices.push(next, current, current + 1);
+          this.indices.push( next + 1, next, current + 1);
 
           }
   
@@ -71,7 +73,6 @@ export class MySphere extends CGFobject {
         }
         phi += phiInc;
       }
-  
   
       this.primitiveType = this.scene.gl.TRIANGLES;
       this.initGLBuffers();
