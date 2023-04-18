@@ -24,12 +24,22 @@ export class MyPanorama extends CGFobject {
     }
 
     display(){
-        this.appearance.apply();
+      this.scene.pushMatrix();
+  
+      this.scene.translate(-this.scene.camera.position[0], -this.scene.camera.position[1], -this.scene.camera.position[2]);
 
-        //this.camera.position(50, 10, 15);
+      this.appearance.apply();
+  
+      // display the sphere
+      this.sphere.display();
+      
+      this.scene.popMatrix();
 
-        // display the sphere
-        this.sphere.display();
+      /*this.appearance.apply();
+  
+      // display the sphere
+      this.sphere.display();*/
+    
         
     }
   }
