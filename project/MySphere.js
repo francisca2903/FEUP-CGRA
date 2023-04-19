@@ -39,9 +39,9 @@ export class MySphere extends CGFobject {
         theta = 0;
         for (let longitude = 0; longitude <= this.longDivs; longitude++) {
           // -- Vertices coordinates  -- //
-          var x = 200 * Math.cos(theta) * sinPhi;
-          var y = 200 * cosPhi;
-          var z = 200 * Math.sin(-theta) * sinPhi;
+          var x = 250 * Math.cos(theta) * sinPhi;
+          var y = 250 * cosPhi;
+          var z = 250 * Math.sin(-theta) * sinPhi;
           this.vertices.push(x, y, z);
   
           // -- Indices -- //

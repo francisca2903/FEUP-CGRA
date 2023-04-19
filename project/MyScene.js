@@ -35,21 +35,22 @@ export class MyScene extends CGFscene {
     this.displayAxis = true;
     this.scaleFactor = 1;
     this.displaySphere = false;
-    this.displayPlane = false;
+    this.displayPlane = true;
 
     this.enableTextures(true);
 
   // terrain
   this.texture = new CGFtexture(this, "images/terrain.jpg");
   this.appearance = new CGFappearance(this);
+  this.appearance.setEmission(1, 1, 1, 1);
   this.appearance.setTexture(this.texture);
   this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
   // earth
-  this.texture1 = new CGFtexture(this, "images/earth.jpg");
-  this.appearance = new CGFappearance(this);
-  this.appearance.setTexture(this.texture1);
-  this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+  //this.texture1 = new CGFtexture(this, "images/earth.jpg");
+  //this.appearance = new CGFappearance(this);
+  //this.appearance.setTexture(this.texture1);
+  //this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
   }
   initLights() {
