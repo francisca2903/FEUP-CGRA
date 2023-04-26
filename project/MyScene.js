@@ -1,10 +1,11 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
-import { MySphere } from "./MySphere.js"
-import { MyBird } from "./MyBird.js"
-import { MySmallSphere } from "./MySmallSphere.js"
-
+import { MySphere } from "./MySphere.js";
+import { MyBird } from "./MyBird.js";
+import { MyTerrain } from "./MyTerrain.js";
+import { MyDiamond } from "./MyDiamond.js";
+import { MyAnimatedObject } from "./MyAnimatedObject.js";
 /**
  * MyScene
  * @constructor
@@ -33,6 +34,8 @@ export class MyScene extends CGFscene {
     this.sphere = new MySphere(this, 16, 8);
     this.panorama = new MyPanorama(this, "images/panorama4.jpg");
     this.bird = new MyBird(this);
+    //this.terrain = new MyTerrain(this, 2);
+    //this.diamond = new MyDiamond(this);
 
     //Objects connected to MyInterface
     this.displayAxis = false;
@@ -42,13 +45,65 @@ export class MyScene extends CGFscene {
 
     this.enableTextures(true);
 
-  // terrain
-  this.texture = new CGFtexture(this, "images/terrain.jpg");
-  this.appearance = new CGFappearance(this);
-  this.appearance.setEmission(1, 1, 1, 1);
-  this.appearance.setTexture(this.texture);
-  this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+    // terrain
+    this.texture = new CGFtexture(this, "images/terrain.jpg");
+    this.appearance = new CGFappearance(this);
+    this.appearance.setEmission(1, 1, 1, 1);
+    this.appearance.setTexture(this.texture);
+    this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
+    // animation
+    this.setUpdatePeriod(60); // **at least** 50 ms between animations
+
+    this.appStartTime=Date.now(); // current time in milisecs
+
+
+    this.animVal1=0;
+    this.animVal2=0;
+    this.animVal3=0;
+
+    //#region Pars for anim 3
+    this.startVal=0;
+    this.endVal=6;
+    this.animStartTimeSecs=2;
+    this.animDurationSecs=3;
+    this.length=(this.endVal-this.startVal);
+    //#endregion
+  
+    //#region Ex. 4
+    this.numAnimObjs=1;
+
+    this.animObjs=[
+      new MyAnimatedObject(this,0,2,2,3)
+    ];
+    //#endregion
+  }
+    update(t){
+      // Update without considering time - BAD
+      this.animVal1+=0.1;
+
+      //#region Ex.2 
+      // Continuous animation based on current time and app start time 
+      var timeSinceAppStart=(t-this.appStartTime)/1000.0;
+      
+      this.animVal2=-2+2*Math.sin(timeSinceAppStart*Math.PI*3);
+
+      //#region Ex. 3
+      // Animation based on elapsed time since animation start
+      
+      var elapsedTimeSecs=timeSinceAppStart-this.animStartTimeSecs;
+
+      if (elapsedTimeSecs>=0 && elapsedTimeSecs<=this.animDurationSecs)
+        this.animVal3=this.startVal+elapsedTimeSecs/this.animDurationSecs*this.length;
+      
+      //#region Ex. 4 
+      // delegate animations to objects
+      for (var i=0;i<this.numAnimObjs;i++)
+        this.animObjs[i].update(timeSinceAppStart);
+      //#endregion
+      //#endregion
+      //#endregion
+    }
 
 
   // earth
@@ -57,7 +112,7 @@ export class MyScene extends CGFscene {
   //this.appearance.setTexture(this.texture1);
   //this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
-  }
+  
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -111,8 +166,25 @@ export class MyScene extends CGFscene {
     this.panorama.display();
 
     // display of the bird
-    this.bird.display();
+    //this.bird.display();
 
+
+    //this.terrain.display();
+
+    // animation
+    this.pushMatrix();
+    this.translate(this.animVal3,0,0);
+
+    // ---- BEGIN Primitive drawing section
+    //this.diamond.display();
+
+    this.popMatrix();
+
+    for (var i=0;i<this.numAnimObjs;i++)
+    {
+      this.translate(0,1,0);
+      this.animObjs[i].display();
+    }
     // ---- END Primitive drawing section
   }
 }
