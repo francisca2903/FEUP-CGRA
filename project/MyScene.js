@@ -3,8 +3,6 @@ import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyBird } from "./MyBird.js";
-import { MyTerrain } from "./MyTerrain.js";
-import { MyDiamond } from "./MyDiamond.js";
 import { MyAnimatedObject } from "./MyAnimatedObject.js";
 /**
  * MyScene
@@ -51,6 +49,12 @@ export class MyScene extends CGFscene {
     this.appearance.setEmission(1, 1, 1, 1);
     this.appearance.setTexture(this.texture);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+
+    // earth
+    //this.texture1 = new CGFtexture(this, "images/earth.jpg");
+    //this.appearance = new CGFappearance(this);
+    //this.appearance.setTexture(this.texture1);
+    //this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     // animation
     this.setUpdatePeriod(60); // **at least** 50 ms between animations
@@ -103,21 +107,9 @@ export class MyScene extends CGFscene {
       //#endregion
       //#endregion
       //#endregion
+
+      this.checkKeys;
     }
-
-  // terrain
-  this.texture = new CGFtexture(this, "images/terrain.jpg");
-  this.appearance = new CGFappearance(this);
-  this.appearance.setEmission(1, 1, 1, 1);
-  this.appearance.setTexture(this.texture);
-  this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-
-  // earth
-  //this.texture1 = new CGFtexture(this, "images/earth.jpg");
-  //this.appearance = new CGFappearance(this);
-  //this.appearance.setTexture(this.texture1);
-  //this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-
   
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
@@ -157,9 +149,9 @@ export class MyScene extends CGFscene {
         console.log(text);
   }
 
-  update() {
+ /* update() {
     this.checkKeys;
-  }
+  }*/
 
   display() {
     // ---- BEGIN Background, camera and axis setup
