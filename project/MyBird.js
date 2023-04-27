@@ -20,7 +20,7 @@ export class MyBird extends CGFobject {
       0.5, 1,
     ]);
     this.cylinder = new MyCylinder(this.scene, 9, 0.5, 0.2, 0.2);
-     
+
       this.initMaterials();
     }
 

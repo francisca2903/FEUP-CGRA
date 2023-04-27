@@ -105,6 +105,12 @@ export class MyScene extends CGFscene {
       //#endregion
     }
 
+  // terrain
+  this.texture = new CGFtexture(this, "images/terrain.jpg");
+  this.appearance = new CGFappearance(this);
+  this.appearance.setEmission(1, 1, 1, 1);
+  this.appearance.setTexture(this.texture);
+  this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
   // earth
   //this.texture1 = new CGFtexture(this, "images/earth.jpg");
@@ -134,6 +140,27 @@ export class MyScene extends CGFscene {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
+
+  checkKeys() {
+    var text="Keys pressed: ";
+    var keysPressed=false;
+
+    if (this.gui.isKeyPressed("KeyW")) {
+      text+= " W ";
+      keysPressed = true;
+    }
+    if (this.gui.isKeyPressed("KeyS")) {
+      text+= " S ";
+      keysPressed = true;
+    }
+    if (keysPressed)
+        console.log(text);
+  }
+
+  update() {
+    this.checkKeys;
+  }
+
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -153,7 +180,7 @@ export class MyScene extends CGFscene {
     // display of the plane
     this.pushMatrix();
     this.appearance.apply();
-    this.translate(0,-100,0);
+    this.translate(0,-50,0);
     this.scale(400,400,400);
     this.rotate(-Math.PI/2.0,1,0,0);
     if(this.displayPlane) this.plane.display();
@@ -166,7 +193,10 @@ export class MyScene extends CGFscene {
     this.panorama.display();
 
     // display of the bird
+    this.pushMatrix();
+    this.translate(0, 0, 0);
     //this.bird.display();
+    this.popMatrix();
 
 
     //this.terrain.display();
