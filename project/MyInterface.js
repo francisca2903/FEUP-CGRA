@@ -39,7 +39,7 @@ export class MyInterface extends CGFinterface {
     init(application) {
         // call CGFinterface init
         super.init(application);
-        this.initKeys();
+        
         
         // init GUI. For more information on the methods, check:
         // https://github.com/dataarts/dat.gui/blob/master/API.md
@@ -56,6 +56,8 @@ export class MyInterface extends CGFinterface {
 
         // Display Sphere
         this.gui.add(this.scene, 'displaySphere').name('Display Sphere');
+
+        this.initKeys();
 
         return true;
     }

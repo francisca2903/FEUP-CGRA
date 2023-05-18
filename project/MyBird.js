@@ -21,7 +21,20 @@ export class MyBird extends CGFobject {
     ]);
     this.cylinder = new MyCylinder(this.scene, 9, 0.5, 0.2, 0.2);
 
-      this.initMaterials();
+    //this.orientation = 0;
+    this.orientation = 0;//Math.PI/6;
+    this.ascending = true;
+    this.wingAngle = Math.PI/4;
+
+    this.initialX = 0;//0.3;
+    this.initialY = 0;//-1;
+    this.initialZ = 0;
+
+    this.x=this.initialX;
+    this.y=this.initialY;
+    this.z=this.initialZ;
+
+    this.initMaterials();
     }
 
     initMaterials(){
@@ -51,6 +64,13 @@ export class MyBird extends CGFobject {
 
     }
     display(){
+
+        this.scene.pushMatrix();
+        this.scene.translate(this.x, this.y, this.z);
+        this.scene.rotate(-this.orientation, 0, 1, 0);
+
+        //this.scene.pushMatrix();
+       // this.scene.scale(0.6*this.scene.birdScaleFactor, 0.6*this.scene.birdScaleFactor, 0.6*this.scene.birdScaleFactor);
 
         // display the head
         this.blue.apply();
@@ -161,5 +181,65 @@ export class MyBird extends CGFobject {
 
 
       }
+
+      turn(v){
+        if(v > 0){
+            this.orientation += 0.1;
+        }
+        if(v <= 0){
+            this.orientation -= 0.1;//Math.PI/20;
+        }
+    }
+
+    accelerate(v) {
+        if (v > 0) {
+            // Speed up
+            this.scene.birdSpeed += 0.05; // Increase the speed by a desired amount
+          } else {
+            // Brake
+            this.scene.birdSpeed -= 0.05; // Decrease the speed by a desired amount
+          }
+          // Limit the speed within a certain range
+          if (this.scene.birdSpeed < 0) {
+            this.scene.birdSpeed = 0; // Ensure the speed is non-negative
+          } else if (this.scene.birdSpeed > 3) {
+            this.scene.birdSpeed = 3; // Limit the maximum speed to 3
+          }
+    }
+
+    update()
+    {
+        this.updatePos();
+        this.updateOsc();
+        this.updateWings();
+    }
+    updatePos() {
     
+      //this.x += this.scene.birdSpeed*Math.sin(this.orientation);
+      //this.z += this.scene.birdSpeed*Math.cos(this.orientation);
+      this.x +=this.scene.speedFactor*this.scene.birdSpeed*Math.sin(this.orientation);
+      this.z +=this.scene.speedFactor*this.scene.birdSpeed*Math.cos(this.orientation);
+      this.scene.translate(this.x,this.y,this.z);
+    }
+    
+    updateOsc(){
+        if(this.ascending){
+            this.y += 0.03;
+            this.ascending = this.y < this.initialY + 0.3;
+        }
+        else{
+            this.y += -0.03;
+            this.ascending = this.y < this.initialY - 0.3;
+        }
+    }
+
+    updateWings()
+    {
+        if(this.ascending){
+            this.wingAngle += 0.05;
+        }
+        else{
+            this.wingAngle -= 0.05;
+        }
+    }
   }

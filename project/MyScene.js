@@ -3,7 +3,7 @@ import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyBird } from "./MyBird.js";
-import { MyAnimatedObject } from "./MyAnimatedObject.js";
+//import { MyAnimatedObject } from "./MyAnimatedObject.js";
 /**
  * MyScene
  * @constructor
@@ -11,6 +11,8 @@ import { MyAnimatedObject } from "./MyAnimatedObject.js";
 export class MyScene extends CGFscene {
   constructor() {
     super();
+    //this.startTime = performance.now();
+
   }
   init(application) {
     super.init(application);
@@ -25,6 +27,7 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
+    this.setUpdatePeriod(50);
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
@@ -32,14 +35,17 @@ export class MyScene extends CGFscene {
     this.sphere = new MySphere(this, 16, 8);
     this.panorama = new MyPanorama(this, "images/panorama4.jpg");
     this.bird = new MyBird(this);
+    
     //this.terrain = new MyTerrain(this, 2);
     //this.diamond = new MyDiamond(this);
 
     //Objects connected to MyInterface
     this.displayAxis = false;
-    this.scaleFactor = 1;
+    //this.scaleFactor = 1;
+    //this.scaleFactor = 1;
     this.displaySphere = false;
     this.displayPlane = true;
+    //this.speedFactor = 1;
 
     this.enableTextures(true);
 
@@ -50,21 +56,16 @@ export class MyScene extends CGFscene {
     this.appearance.setTexture(this.texture);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
-    // earth
-    //this.texture1 = new CGFtexture(this, "images/earth.jpg");
-    //this.appearance = new CGFappearance(this);
-    //this.appearance.setTexture(this.texture1);
-    //this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+  
 
-    // animation
-    this.setUpdatePeriod(60); // **at least** 50 ms between animations
+    this.scaleFactor = 1;
+    this.scaleFactor = 1;
+    this.speedFactor = 1;
 
-    this.appStartTime=Date.now(); // current time in milisecs
+    this.birdSpeed = 0.1;
+    this.birdScaleFactor = 1;
 
-
-    this.animVal1=0;
-    this.animVal2=0;
-    this.animVal3=0;
+    
 
     //#region Pars for anim 3
     this.startVal=0;
@@ -74,42 +75,45 @@ export class MyScene extends CGFscene {
     this.length=(this.endVal-this.startVal);
     //#endregion
   
-    //#region Ex. 4
-    this.numAnimObjs=1;
-
-    this.animObjs=[
-      new MyAnimatedObject(this,0,2,2,3)
-    ];
-    //#endregion
   }
-    update(t){
-      // Update without considering time - BAD
-      this.animVal1+=0.1;
 
-      //#region Ex.2 
-      // Continuous animation based on current time and app start time 
-      var timeSinceAppStart=(t-this.appStartTime)/1000.0;
-      
-      this.animVal2=-2+2*Math.sin(timeSinceAppStart*Math.PI*3);
+ update() {
+      this.checkKeys();
+  }
+  
+  checkKeys() {
+    var text="Keys pressed: ";
+    var keysPressed=false;
 
-      //#region Ex. 3
-      // Animation based on elapsed time since animation start
-      
-      var elapsedTimeSecs=timeSinceAppStart-this.animStartTimeSecs;
-
-      if (elapsedTimeSecs>=0 && elapsedTimeSecs<=this.animDurationSecs)
-        this.animVal3=this.startVal+elapsedTimeSecs/this.animDurationSecs*this.length;
-      
-      //#region Ex. 4 
-      // delegate animations to objects
-      for (var i=0;i<this.numAnimObjs;i++)
-        this.animObjs[i].update(timeSinceAppStart);
-      //#endregion
-      //#endregion
-      //#endregion
-
-      this.checkKeys;
+    if (this.gui.isKeyPressed("KeyW")) {
+      text+= " W ";
+      keysPressed = true;
+      this.bird.accelerate(0.01);  
     }
+    if (this.gui.isKeyPressed("KeyS")) {
+      text+= " S ";
+      keysPressed = true;
+      this.bird.accelerate(-0.01);
+    }
+    if (this.gui.isKeyPressed("KeyA")) {
+      this.bird.turn(1);
+
+    }
+    if (this.gui.isKeyPressed("KeyD")) {
+      this.bird.turn(-1);
+    }
+    if(this.gui.isKeyPressed("KeyR")) {
+        this.bird.x = 0;
+        this.bird.y = 0;
+        this.bird.z = 0;
+        this.bird.orientation = 0;
+        this.birdSpeed = 0;
+    }
+
+    if (keysPressed)
+        console.log(text);
+        this.bird.update();
+  }
   
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
@@ -133,25 +137,7 @@ export class MyScene extends CGFscene {
     this.setShininess(10.0);
   }
 
-  checkKeys() {
-    var text="Keys pressed: ";
-    var keysPressed=false;
-
-    if (this.gui.isKeyPressed("KeyW")) {
-      text+= " W ";
-      keysPressed = true;
-    }
-    if (this.gui.isKeyPressed("KeyS")) {
-      text+= " S ";
-      keysPressed = true;
-    }
-    if (keysPressed)
-        console.log(text);
-  }
-
- /* update() {
-    this.checkKeys;
-  }*/
+ 
 
   display() {
     // ---- BEGIN Background, camera and axis setup
@@ -184,29 +170,14 @@ export class MyScene extends CGFscene {
     // display of the panorama
     this.panorama.display();
 
+
     // display of the bird
     this.pushMatrix();
     this.translate(0, 0, 0);
-    //this.bird.display();
+    this.bird.display();
     this.popMatrix();
 
 
-    //this.terrain.display();
-
-    // animation
-    this.pushMatrix();
-    this.translate(this.animVal3,0,0);
-
-    // ---- BEGIN Primitive drawing section
-    //this.diamond.display();
-
-    this.popMatrix();
-
-    for (var i=0;i<this.numAnimObjs;i++)
-    {
-      this.translate(0,1,0);
-      this.animObjs[i].display();
-    }
-    // ---- END Primitive drawing section
+    
   }
 }
