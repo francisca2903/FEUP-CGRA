@@ -4,6 +4,7 @@ import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyBird } from "./MyBird.js";
 //import { MyAnimatedObject } from "./MyAnimatedObject.js";
+
 /**
  * MyScene
  * @constructor
@@ -35,19 +36,22 @@ export class MyScene extends CGFscene {
     this.sphere = new MySphere(this, 16, 8);
     this.panorama = new MyPanorama(this, "images/panorama4.jpg");
     this.bird = new MyBird(this);
-    
-    //this.terrain = new MyTerrain(this, 2);
-    //this.diamond = new MyDiamond(this);
 
     //Objects connected to MyInterface
     this.displayAxis = false;
-    //this.scaleFactor = 1;
-    //this.scaleFactor = 1;
+    this.scaleFactor = 1;
+    this.speedFactor = 1;
     this.displaySphere = false;
     this.displayPlane = true;
     //this.speedFactor = 1;
 
     this.enableTextures(true);
+
+  // earth
+  //this.texture1 = new CGFtexture(this, "images/earth.jpg");
+  //this.appearance = new CGFappearance(this);
+  //this.appearance.setTexture(this.texture1);
+  //this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     // terrain
     this.texture = new CGFtexture(this, "images/terrain.jpg");
@@ -55,17 +59,6 @@ export class MyScene extends CGFscene {
     this.appearance.setEmission(1, 1, 1, 1);
     this.appearance.setTexture(this.texture);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-
-  
-
-    this.scaleFactor = 1;
-    this.scaleFactor = 1;
-    this.speedFactor = 1;
-
-    this.birdSpeed = 0.1;
-    this.birdScaleFactor = 1;
-
-    
 
     //#region Pars for anim 3
     this.startVal=0;
@@ -88,18 +81,18 @@ export class MyScene extends CGFscene {
     if (this.gui.isKeyPressed("KeyW")) {
       text+= " W ";
       keysPressed = true;
-      this.bird.accelerate(0.01);  
+      this.bird.accelerate(1); 
     }
-    if (this.gui.isKeyPressed("KeyS")) {
+    else if (this.gui.isKeyPressed("KeyS")) {
       text+= " S ";
       keysPressed = true;
-      this.bird.accelerate(-0.01);
+      this.bird.accelerate(-1);
     }
     if (this.gui.isKeyPressed("KeyA")) {
       this.bird.turn(1);
 
     }
-    if (this.gui.isKeyPressed("KeyD")) {
+    else if (this.gui.isKeyPressed("KeyD")) {
       this.bird.turn(-1);
     }
     if(this.gui.isKeyPressed("KeyR")) {
@@ -107,7 +100,7 @@ export class MyScene extends CGFscene {
         this.bird.y = 0;
         this.bird.z = 0;
         this.bird.orientation = 0;
-        this.birdSpeed = 0;
+        this.bird.speed = 0;
     }
 
     if (keysPressed)
@@ -137,8 +130,6 @@ export class MyScene extends CGFscene {
     this.setShininess(10.0);
   }
 
- 
-
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -156,13 +147,13 @@ export class MyScene extends CGFscene {
     // ---- BEGIN Primitive drawing section
 
     // display of the plane
-    this.pushMatrix();
+    /*this.pushMatrix();
     this.appearance.apply();
     this.translate(0,-50,0);
     this.scale(400,400,400);
     this.rotate(-Math.PI/2.0,1,0,0);
     if(this.displayPlane) this.plane.display();
-    this.popMatrix();
+    this.popMatrix();*/
 
     // display of the sphere
     if(this.displaySphere) this.sphere.display();
@@ -170,14 +161,14 @@ export class MyScene extends CGFscene {
     // display of the panorama
     this.panorama.display();
 
-
     // display of the bird
     this.pushMatrix();
     this.translate(0, 0, 0);
     this.bird.display();
     this.popMatrix();
 
+    // ---- BEGIN Primitive drawing section
 
-    
+    // ---- END Primitive drawing section
   }
 }

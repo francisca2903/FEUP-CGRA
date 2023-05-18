@@ -7,10 +7,11 @@ import {CGFobject} from '../lib/CGF.js';
  * @param {Int} stacks - Refers to the number of stacks along the Y axis
  */
 export class MySmallSphere extends CGFobject {
-    constructor(scene, slices, stacks) {
+    constructor(scene, slices, stacks, size) {
       super(scene);
       this.latDivs = stacks * 2;
       this.longDivs = slices;
+      this.size = size;
   
       this.initBuffers();
     }
@@ -29,6 +30,7 @@ export class MySmallSphere extends CGFobject {
   
       var longD = 1 / this.longDivs;
       var latD = 1 / this.latDivs;
+      var size = this.size;
   
       // -- build an all-around stack at a time, starting on "north pole" and proceeding "south" -- //
       for (let latitude = 0; latitude <= this.latDivs; latitude++) {
@@ -39,9 +41,9 @@ export class MySmallSphere extends CGFobject {
         theta = 0;
         for (let longitude = 0; longitude <= this.longDivs; longitude++) {
           // -- Vertices coordinates  -- //
-          var x = 0.5 * Math.cos(theta) * sinPhi;
-          var y = 0.5 * cosPhi;
-          var z = 0.5 * Math.sin(-theta) * sinPhi;
+          var x = size * Math.cos(theta) * sinPhi;
+          var y = size * cosPhi;
+          var z = size * Math.sin(-theta) * sinPhi;
           this.vertices.push(x, y, z);
   
           // -- Indices -- //

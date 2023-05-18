@@ -9,8 +9,8 @@ export class MyBird extends CGFobject {
     constructor(scene) {
       super(scene);
   
-      this.smallSphere = new MySmallSphere(this.scene, 16, 8);
-      this.smallSphere1 = new MySmallSphere(this.scene, 16, 8);
+      this.smallSphere = new MySmallSphere(this.scene, 16, 8, 0.5);
+      this.smallSphere1 = new MySmallSphere(this.scene, 16, 8, 0.5);
       this.pyramid = new MyPyramid(this.scene,4, 1);
       this.plane1 = new MyPlane(this.scene, 5);
      // this.triangle = new MyTriangle(this.scene);
@@ -21,8 +21,8 @@ export class MyBird extends CGFobject {
     ]);
     this.cylinder = new MyCylinder(this.scene, 9, 0.5, 0.2, 0.2);
 
-    //this.orientation = 0;
-    this.orientation = 0;//Math.PI/6;
+    this.speed = 0;
+    this.orientation = 0;
     this.ascending = true;
     this.wingAngle = Math.PI/4;
 
@@ -66,8 +66,9 @@ export class MyBird extends CGFobject {
     display(){
 
         this.scene.pushMatrix();
+        this.scene.scale(this.scene.scaleFactor, this.scene.scaleFactor, this.scene.scaleFactor);
         this.scene.translate(this.x, this.y, this.z);
-        this.scene.rotate(-this.orientation, 0, 1, 0);
+        this.scene.rotate(this.orientation, 0, 1, 0);
 
         //this.scene.pushMatrix();
        // this.scene.scale(0.6*this.scene.birdScaleFactor, 0.6*this.scene.birdScaleFactor, 0.6*this.scene.birdScaleFactor);
@@ -179,31 +180,40 @@ export class MyBird extends CGFobject {
         this.smallSphere.display();
         this.scene.popMatrix();
 
+        this.scene.popMatrix();
 
       }
 
-      turn(v){
+      turn(v) {
+        const turningFactor = 0.1; // Change as needed
         if(v > 0){
-            this.orientation += 0.1;
+            this.orientation += turningFactor * this.scene.speedFactor;
         }
-        if(v <= 0){
-            this.orientation -= 0.1;//Math.PI/20;
+        else if(v < 0){
+            this.orientation -= turningFactor * this.scene.speedFactor;
         }
+
+        if (this.orientation > Math.PI) {
+          this.orientation -= 2 * Math.PI;
+      } else if (this.orientation < -Math.PI) {
+          this.orientation += 2 * Math.PI;
+      }
     }
 
     accelerate(v) {
+      const accelerationFactor = 0.1;
         if (v > 0) {
             // Speed up
-            this.scene.birdSpeed += 0.05; // Increase the speed by a desired amount
+            this.speed += accelerationFactor * this.scene.speedFactor; // Increase the speed by a desired amount
           } else {
             // Brake
-            this.scene.birdSpeed -= 0.05; // Decrease the speed by a desired amount
+            this.speed -= accelerationFactor * this.scene.speedFactor; // Decrease the speed by a desired amount
           }
           // Limit the speed within a certain range
-          if (this.scene.birdSpeed < 0) {
-            this.scene.birdSpeed = 0; // Ensure the speed is non-negative
-          } else if (this.scene.birdSpeed > 3) {
-            this.scene.birdSpeed = 3; // Limit the maximum speed to 3
+          if (this.speed < 0) {
+            this.speed = 0; // Ensure the speed is non-negative
+          } else if (this.speed > 3) {
+            this.speed = 3; // Limit the maximum speed to 3
           }
     }
 
@@ -214,12 +224,8 @@ export class MyBird extends CGFobject {
         this.updateWings();
     }
     updatePos() {
-    
-      //this.x += this.scene.birdSpeed*Math.sin(this.orientation);
-      //this.z += this.scene.birdSpeed*Math.cos(this.orientation);
-      this.x +=this.scene.speedFactor*this.scene.birdSpeed*Math.sin(this.orientation);
-      this.z +=this.scene.speedFactor*this.scene.birdSpeed*Math.cos(this.orientation);
-      this.scene.translate(this.x,this.y,this.z);
+      this.x +=this.scene.speedFactor*this.speed*Math.sin(this.orientation - Math.PI / 2);
+      this.z +=this.scene.speedFactor*this.speed*Math.cos(this.orientation - Math.PI / 2);
     }
     
     updateOsc(){
