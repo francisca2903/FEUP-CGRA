@@ -43,7 +43,6 @@ export class MyScene extends CGFscene {
     this.speedFactor = 1;
     this.displaySphere = false;
     this.displayPlane = true;
-    //this.speedFactor = 1;
 
     this.enableTextures(true);
 
@@ -59,14 +58,6 @@ export class MyScene extends CGFscene {
     this.appearance.setEmission(1, 1, 1, 1);
     this.appearance.setTexture(this.texture);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-
-    //#region Pars for anim 3
-    this.startVal=0;
-    this.endVal=6;
-    this.animStartTimeSecs=2;
-    this.animDurationSecs=3;
-    this.length=(this.endVal-this.startVal);
-    //#endregion
   
   }
 

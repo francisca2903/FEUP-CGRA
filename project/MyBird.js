@@ -4,6 +4,9 @@ import { MyPyramid } from './MyPyramid.js';
 import { MySmallSphere } from './MySmallSphere.js';
 import { MyTriangle } from './MyTriangle.js';
 import { MyCylinder } from './MyCylinder.js';
+import { MyParallelogram } from './MyParallelogram.js';
+import { MyWing } from './MyWing.js';
+
 
 export class MyBird extends CGFobject {
     constructor(scene) {
@@ -20,14 +23,17 @@ export class MyBird extends CGFobject {
       0.5, 1,
     ]);
     this.cylinder = new MyCylinder(this.scene, 9, 0.5, 0.2, 0.2);
+    this.parallelogram = new MyParallelogram(this.scene);
+    this.wing = new MyWing(this.scene);
 
     this.speed = 0;
     this.orientation = 0;
     this.ascending = true;
-    this.wingAngle = Math.PI/4;
+    this.wingAngle = Math.PI/8;
+    
 
-    this.initialX = 0;//0.3;
-    this.initialY = 0;//-1;
+    this.initialX = 0;
+    this.initialY = 0;
     this.initialZ = 0;
 
     this.x=this.initialX;
@@ -64,13 +70,12 @@ export class MyBird extends CGFobject {
 
     }
     display(){
-
         this.scene.pushMatrix();
         this.scene.scale(this.scene.scaleFactor, this.scene.scaleFactor, this.scene.scaleFactor);
         this.scene.translate(this.x, this.y, this.z);
         this.scene.rotate(this.orientation, 0, 1, 0);
 
-        //this.scene.pushMatrix();
+       // this.scene.pushMatrix();
        // this.scene.scale(0.6*this.scene.birdScaleFactor, 0.6*this.scene.birdScaleFactor, 0.6*this.scene.birdScaleFactor);
 
         // display the head
@@ -103,28 +108,22 @@ export class MyBird extends CGFobject {
 
         //display the wings left
         this.scene.pushMatrix();
-        this.appearance.apply();
-        this.scene.translate(0.5,-1,0.6);
-        this.scene.rotate(-Math.PI/2, 0, 1, 0);
-        this.scene.rotate(-Math.PI/3, 0, 0, 1);
-        this.scene.rotate(-Math.PI/4, 0, 1, 0);
-        this.scene.rotate(-Math.PI/2, 0, 0, 1);
-        this.scene.scale(0.2,0.5,1);
+        this.blue.apply();
+        this.scene.translate(0.1,-0.9,0.2);
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
+        this.scene.rotate(-this.wingAngle, 1, 0, 0);
         this.scene.gl.disable(this.scene.gl.CULL_FACE);
-        this.smallSphere.display();
+        this.wing.display();
         this.scene.popMatrix();
 
         //display the wings right
         this.scene.pushMatrix();
-        this.appearance.apply();
-        this.scene.translate(0.5,-1,-0.6);
-        this.scene.rotate(Math.PI/2, 0, 1, 0);
-        this.scene.rotate(-Math.PI/3, 0, 0, 1);
-        this.scene.rotate(Math.PI/4, 0, 1, 0);
-        this.scene.rotate(-Math.PI/2, 0, 0, 1);
-        this.scene.scale(0.2,0.5,1);
+        this.scene.translate(0.1,-0.9,-0.2);
+        this.blue.apply();
+        this.scene.rotate(-Math.PI/2, 1, 0, 0);
+        this.scene.rotate(this.wingAngle, 1, 0, 0);
         this.scene.gl.disable(this.scene.gl.CULL_FACE);
-        this.smallSphere.display();
+        this.wing.display();
         this.scene.popMatrix();
 
         // display the eyes
@@ -179,8 +178,7 @@ export class MyBird extends CGFobject {
         this.scene.scale(0.2,0.1,0.1);
         this.smallSphere.display();
         this.scene.popMatrix();
-
-        this.scene.popMatrix();
+       
 
       }
 
@@ -201,7 +199,7 @@ export class MyBird extends CGFobject {
     }
 
     accelerate(v) {
-      const accelerationFactor = 0.1;
+      const accelerationFactor = 0.02;
         if (v > 0) {
             // Speed up
             this.speed += accelerationFactor * this.scene.speedFactor; // Increase the speed by a desired amount
@@ -239,13 +237,19 @@ export class MyBird extends CGFobject {
         }
     }
 
-    updateWings()
-    {
-        if(this.ascending){
-            this.wingAngle += 0.05;
-        }
-        else{
-            this.wingAngle -= 0.05;
-        }
+    updateWings() {
+      const wingAngleIncrement = 0.03;
+    
+      const wingSpeedFactor = this.scene.speedFactor + this.speed; 
+    
+      if (this.ascending) {
+        this.wingAngle += wingAngleIncrement * wingSpeedFactor;
+    
+      } else {
+        this.wingAngle -= wingAngleIncrement * wingSpeedFactor;
+        
+      }
     }
+
+  
   }
