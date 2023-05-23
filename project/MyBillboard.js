@@ -13,6 +13,7 @@ export class MyBillboard extends CGFobject{
 
 
         this.initMaterials();
+        this.initShaders();
     }
 
     initMaterials(){
@@ -23,6 +24,11 @@ export class MyBillboard extends CGFobject{
         this.appearance.setShininess(10.0);
         this.appearance.loadTexture(this.texture);
         this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+    }
+
+    initShaders() {
+        this.shader = new CGFshader(this.scene.gl, "shaders/texture3anim.vert", "shaders/texture3anim.frag");
+		this.shader.setUniformsValues({ timeFactor: 0 });
     }
 
     calculate_angle(){
@@ -37,9 +43,15 @@ export class MyBillboard extends CGFobject{
 
     }
 
+    update(t) {
+        this.time = Math.sin(t/1000); // t is typically the current time in milliseconds
+    }
+
     display(){
 
         this.calculate_angle();
+        this.scene.setActiveShader(this.shader);
+        this.shader.setUniformsValues({ timeFactor: this.time });
 
         // display billboard
         this.scene.pushMatrix();
@@ -50,6 +62,8 @@ export class MyBillboard extends CGFobject{
         this.appearance.apply();
         this.quad.display();
         this.scene.popMatrix();
+
+        this.scene.setActiveShader(this.scene.defaultShader);
 
     }
 

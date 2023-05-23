@@ -30,8 +30,8 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
-    //this.gl.enable(this.gl.BLEND);
-    //this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+    this.gl.enable(this.gl.BLEND);
+    this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     this.setUpdatePeriod(50);
 
     //Initialize scene objects
@@ -67,6 +67,8 @@ export class MyScene extends CGFscene {
     this.appearance.setEmission(1, 1, 1, 1);
     this.appearance.setTexture(this.texture);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+
+    this.animate();
   }
 
  update() {
@@ -112,6 +114,21 @@ export class MyScene extends CGFscene {
         console.log(text);
         this.bird.update();
   }
+
+  animate() {
+    let t = Date.now(); // get the current time in milliseconds
+
+    for(var i = 0; i < 9; i++){
+        this.treeGroup.trees[i].update(t); // update each billboard
+    }
+
+    for(let i = 0; i < this.treeRow.trees.length; i++){
+      this.treeRow.trees[i].update(t); // update each billboard
+    }
+    
+    requestAnimationFrame(this.animate.bind(this)); // request the next frame
+}
+
 
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
