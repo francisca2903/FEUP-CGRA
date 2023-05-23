@@ -45,7 +45,7 @@ export class MyTerrain extends CGFobject {
       
       // display plane
       this.scene.pushMatrix();
-      this.scene.translate(0,-115,0);
+      this.scene.translate(0,-100,0);
       this.scene.rotate(-Math.PI/2.0, 1, 0, 0);
       this.scene.scale(490, 490, 7);
       this.scene.plane.display();

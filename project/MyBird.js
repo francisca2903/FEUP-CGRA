@@ -6,7 +6,6 @@ import { MyTriangle } from './MyTriangle.js';
 import { MyCylinder } from './MyCylinder.js';
 import { MyParallelogram } from './MyParallelogram.js';
 import { MyWing } from './MyWing.js';
-import { MyBirdEgg } from './MyBirdEgg.js';
 
 
 export class MyBird extends CGFobject {
@@ -31,6 +30,9 @@ export class MyBird extends CGFobject {
     this.orientation = 0;
     this.ascending = true;
     this.wingAngle = Math.PI/8;
+
+     this.maxAngle = Math.PI / 8;  
+     this.minAngle = -Math.PI / 8; 
     
 
     this.initialX = 0;
@@ -41,8 +43,12 @@ export class MyBird extends CGFobject {
     this.y=this.initialY;
     this.z=this.initialZ;
 
-    this.carryingEgg = false;
-    this.egg = null;
+
+
+    this.down = false;
+
+    this.targetHeight = -20; 
+   
 
     this.initMaterials();
     }
@@ -71,14 +77,6 @@ export class MyBird extends CGFobject {
         this.appearance.setEmission(1, 1, 1, 1);
         this.appearance.loadTexture('images/birdTexture.jpeg');
         this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-
-        this.appearance1 = new CGFappearance(this.scene);
-        this.appearance1.setAmbient(0.7, 0.7, 0.7, 1);
-        this.appearance1.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.appearance1.setSpecular(0.1, 0.1, 0.1, 1);
-        this.appearance1.setShininess(10.0);
-        this.appearance1.loadTexture('images/eggTexture.jpeg');
-        this.appearance1.setTextureWrap('REPEAT', 'REPEAT');
 
     }
     display(){
@@ -198,6 +196,8 @@ export class MyBird extends CGFobject {
           this.egg.display();
           this.scene.popMatrix();
         }
+
+
       }
 
       turn(v) {
@@ -238,21 +238,18 @@ export class MyBird extends CGFobject {
         this.updatePos();
         this.updateOsc();
         this.updateWings();
-        if (this.descending) {
-          this.descend(1);
-        } else if (this.ascending) {
-          this.ascend(1);
-        }
+    
     }
     updatePos() {
       this.x +=this.scene.speedFactor*this.speed*Math.sin(this.orientation - Math.PI / 2);
       this.z +=this.scene.speedFactor*this.speed*Math.cos(this.orientation - Math.PI / 2);
-
+   
       if (this.carryingEgg) {
         this.egg.x = this.x;
         this.egg.y = this.y;
         this.egg.z = this.z;
       }
+
     }
     
     updateOsc(){
@@ -261,36 +258,37 @@ export class MyBird extends CGFobject {
             this.ascending = this.y < this.initialY + 0.3;
         }
         else{
-            this.y += -0.03;
-            this.ascending = this.y < this.initialY - 0.3;
+          this.y -= 0.03;
+          this.ascending = this.y < this.initialY;
+            
         }
     }
+
 
     updateWings() {
       const wingAngleIncrement = 0.03;
     
-      const wingSpeedFactor = this.scene.speedFactor + this.speed; 
+      const wingSpeedFactor = this.scene.speedFactor + 0.2;
     
       if (this.ascending) {
         this.wingAngle += wingAngleIncrement * wingSpeedFactor;
+        if(this.wingAngle > this.maxAngle) this.wingAngle = this.maxAngle;
     
       } else {
         this.wingAngle -= wingAngleIncrement * wingSpeedFactor;
+        if(this.wingAngle < this.minAngle) this.wingAngle = this.minAngle;
         
       }
     }
-
-    pickUpEgg(egg) {
-      this.carryingEgg = true;
-      this.egg = egg;
-    }
-
-    dropEgg(nest) {
-      if (this.carryingEgg) {
-        nest.addEgg(this.egg);
-        this.carryingEgg = false;
-        this.egg = null;
+    goDown() {
+      if(this.y > -60){
+        this.y = this.y - 0.5;
+      } else if(this.y <= -60){
+        this.y = this.y + 2;
       }
+      this.wingAngle = Math.PI / 8 - Math.PI / 8 * Math.abs(this.y - this.targetHeight) / Math.abs(this.initialY - this.targetHeight);
+
     }
 
+  
   }

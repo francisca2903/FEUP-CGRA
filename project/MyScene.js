@@ -99,6 +99,9 @@ export class MyScene extends CGFscene {
         this.bird.orientation = 0;
         this.bird.speed = 0;
     }
+    if(this.gui.isKeyPressed("KeyP")) {
+      this.bird.goDown();
+    }
 
     if (keysPressed)
         console.log(text);
@@ -170,14 +173,14 @@ export class MyScene extends CGFscene {
 
     // display of the eggs
     this.pushMatrix();
-    this.translate(70, -88, 0);
+    this.translate(70, -60, 0);
     this.scale(15,15,15);
     this.eggs.display();
     this.popMatrix();
     
     // display the nest
     this.pushMatrix();
-    this.translate(0, -88, 40);
+    this.translate(0, -60, 40);
     this.scale(10,10,10);
     this.nest.display();
     this.popMatrix();
