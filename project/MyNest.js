@@ -25,6 +25,7 @@ export class MyNest extends CGFobject {
 
     addEgg(egg) {
       this.eggs.push(egg);
+      this.nrEggs++;
     }
 
     display(){
