@@ -6,7 +6,8 @@ import { MyBird } from "./MyBird.js";
 import { MyTerrain } from "./MyTerrain.js";
 import { MyEggs } from "./MyEggs.js";
 import { MyNest } from "./MyNest.js";
-
+import { MyTreeRowPatch } from "./MyTreeRowPatch.js";
+import { MyTreeGroupPatch } from "./MyTreeGroupPatch.js";
 /**
  * MyScene
  * @constructor
@@ -29,8 +30,8 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
-    this.gl.enable(this.gl.BLEND);
-    this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+    //this.gl.enable(this.gl.BLEND);
+    //this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     this.setUpdatePeriod(50);
 
     //Initialize scene objects
@@ -42,6 +43,8 @@ export class MyScene extends CGFscene {
     this.terrain = new MyTerrain(this);
     this.eggs = new MyEggs(this, 4);
     this.nest = new MyNest(this);
+    this.treeRow = new MyTreeRowPatch(this, 1, 1, 1);
+    this.treeGroup = new MyTreeGroupPatch(this, this.terrain, 1, 1, 1);
 
     //Objects connected to MyInterface
     this.displayAxis = false;
@@ -64,7 +67,6 @@ export class MyScene extends CGFscene {
     this.appearance.setEmission(1, 1, 1, 1);
     this.appearance.setTexture(this.texture);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-    
   }
 
  update() {
@@ -99,15 +101,17 @@ export class MyScene extends CGFscene {
         this.bird.orientation = 0;
         this.bird.speed = 0;
     }
-    if(this.gui.isKeyPressed("KeyP")) {
-      this.bird.goDown();
+    if (this.gui.isKeyPressed("KeyP")) {
+        this.bird.startDescending(1);
     }
 
+    if (this.gui.isKeyPressed("KeyO")) {
+        this.bird.dropEgg(this.nest);
+    }
     if (keysPressed)
         console.log(text);
         this.bird.update();
   }
-
 
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
@@ -185,6 +189,39 @@ export class MyScene extends CGFscene {
     this.nest.display();
     this.popMatrix();
 
+    // display of the terrain
+    this.terrain.display();
+
+    // display of the eggs
+    this.pushMatrix();
+    this.translate(70, -60, 0);
+    this.scale(15,15,15);
+    this.eggs.display();
+    this.popMatrix();
+    
+    // display the nest
+    this.pushMatrix();
+    this.translate(0, -60, 40);
+    this.scale(10,10,10);
+    this.nest.display();
+    this.popMatrix();
+
+    // display tree
+    this.pushMatrix();
+    this.translate(-100, -60, -80);
+    this.scale(2,2,2);
+    for(var i = 0; i < 6; i++){
+      this.treeRow.trees[i].display();
+    }
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(-80, -60, -90);
+    this.scale(2,2,2);
+    for(var i = 0; i < 9; i++){
+      this.treeGroup.trees[i].display();
+    }
+    this.popMatrix();
 
     // ---- BEGIN Primitive drawing section
 

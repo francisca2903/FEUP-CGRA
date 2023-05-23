@@ -45,26 +45,12 @@ export class MyTerrain extends CGFobject {
       
       // display plane
       this.scene.pushMatrix();
-      this.scene.translate(0,-100,0);
+      this.scene.translate(0,-90,0);
       this.scene.rotate(-Math.PI/2.0, 1, 0, 0);
-      this.scene.scale(490, 490, 7);
+      this.scene.scale(400, 400, 5);
       this.scene.plane.display();
       this.scene.popMatrix();
 
       this.scene.setActiveShader(this.scene.defaultShader);
   }
-
-  getHeightAt(x, z) {
-    // convert x and z from world coordinates to texture coordinates
-    const u = (x + this.width / 2) / this.width;
-    const v = (z + this.depth / 2) / this.depth;
-
-    // sample the heightmap
-    const color = this.heightTexture.sample(u, v);
-    
-    // convert the color to a height
-    const height = (color.r + color.g + color.b) / 3 * this.maxHeight;
-
-    return height;
-}
 }

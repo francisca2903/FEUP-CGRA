@@ -22,8 +22,6 @@ export class MyCircle extends CGFobject {
         var ang = 0;
         var deltaAng = 2 * Math.PI / this.slices; //angle diference between vertices
 
-        var faceWidth = 1 / this.slices;
-
         for(var i = 0; i < this.slices; i++, ang += deltaAng) {
 
             var cos = Math.cos(ang);
