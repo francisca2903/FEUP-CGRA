@@ -104,7 +104,7 @@ export class MyScene extends CGFscene {
         this.bird.speed = 0;
     }
     if (this.gui.isKeyPressed("KeyP")) {
-        this.bird.startDescending(1);
+        this.bird.goDown();
     }
 
     if (this.gui.isKeyPressed("KeyO")) {
