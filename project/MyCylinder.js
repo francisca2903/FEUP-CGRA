@@ -37,6 +37,11 @@ export class MyCylinder extends CGFobject {
             this.normals.push(Math.cos(j * 2 * Math.PI / this.slices), 0, Math.sin(j * 2 * Math.PI / this.slices));
             this.normals.push(Math.cos(j * 2 * Math.PI / this.slices), 0, Math.sin(j * 2 * Math.PI / this.slices));
         }
+
+        for (let i = 0; i <= this.slices; i++) {
+            this.texCoords.push(i / this.slices, 1);
+            this.texCoords.push(i / this.slices, 0);
+          }
         
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();

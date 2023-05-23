@@ -4,6 +4,8 @@ import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyBird } from "./MyBird.js";
 import { MyTerrain } from "./MyTerrain.js";
+import { MyEggs } from "./MyEggs.js";
+import { MyNest } from "./MyNest.js";
 
 /**
  * MyScene
@@ -12,7 +14,6 @@ import { MyTerrain } from "./MyTerrain.js";
 export class MyScene extends CGFscene {
   constructor() {
     super();
-    //this.startTime = performance.now();
 
   }
   init(application) {
@@ -28,6 +29,8 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
+    this.gl.enable(this.gl.BLEND);
+    this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     this.setUpdatePeriod(50);
 
     //Initialize scene objects
@@ -37,6 +40,8 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, "images/panorama4.jpg");
     this.bird = new MyBird(this);
     this.terrain = new MyTerrain(this);
+    this.eggs = new MyEggs(this, 4);
+    this.nest = new MyNest(this);
 
     //Objects connected to MyInterface
     this.displayAxis = false;
@@ -47,11 +52,11 @@ export class MyScene extends CGFscene {
 
     this.enableTextures(true);
 
-  // earth
-  //this.texture1 = new CGFtexture(this, "images/earth.jpg");
-  //this.appearance = new CGFappearance(this);
-  //this.appearance.setTexture(this.texture1);
-  //this.appearance.setTextureWrap('REPEAT', 'REPEAT');
+    // earth
+    //this.texture1 = new CGFtexture(this, "images/earth.jpg");
+    //this.appearance = new CGFappearance(this);
+    //this.appearance.setTexture(this.texture1);
+    //this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     // terrain
     this.texture = new CGFtexture(this, "images/terrain.jpg");
@@ -59,7 +64,7 @@ export class MyScene extends CGFscene {
     this.appearance.setEmission(1, 1, 1, 1);
     this.appearance.setTexture(this.texture);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
-  
+    
   }
 
  update() {
@@ -99,7 +104,8 @@ export class MyScene extends CGFscene {
         console.log(text);
         this.bird.update();
   }
-  
+
+
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -161,6 +167,21 @@ export class MyScene extends CGFscene {
 
     // display of the terrain
     this.terrain.display();
+
+    // display of the eggs
+    this.pushMatrix();
+    this.translate(70, -88, 0);
+    this.scale(15,15,15);
+    this.eggs.display();
+    this.popMatrix();
+    
+    // display the nest
+    this.pushMatrix();
+    this.translate(0, -88, 40);
+    this.scale(10,10,10);
+    this.nest.display();
+    this.popMatrix();
+
 
     // ---- BEGIN Primitive drawing section
 
