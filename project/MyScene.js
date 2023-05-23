@@ -3,7 +3,7 @@ import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyBird } from "./MyBird.js";
-//import { MyAnimatedObject } from "./MyAnimatedObject.js";
+import { MyTerrain } from "./MyTerrain.js";
 
 /**
  * MyScene
@@ -36,6 +36,7 @@ export class MyScene extends CGFscene {
     this.sphere = new MySphere(this, 16, 8);
     this.panorama = new MyPanorama(this, "images/panorama4.jpg");
     this.bird = new MyBird(this);
+    this.terrain = new MyTerrain(this);
 
     //Objects connected to MyInterface
     this.displayAxis = false;
@@ -157,6 +158,9 @@ export class MyScene extends CGFscene {
     this.translate(0, 0, 0);
     this.bird.display();
     this.popMatrix();
+
+    // display of the terrain
+    this.terrain.display();
 
     // ---- BEGIN Primitive drawing section
 
